@@ -19,9 +19,6 @@ const PORT = 4000;
 // Middleware to handle CORS
 app.use(cors());
 
-// Connect Database
-connectDB();
-
 // Middleware
 app.use(express.json());
 
@@ -32,9 +29,13 @@ app.use('/api/resume', resumeRoutes);
 // Server uploads folder
 app.use(
   '/uploads',
-  express.static(path.join(__dirname, 'uploads'), {
-    setHeaders: (res, _path) => {
-      res.set('Access-Control-Allow-Origin', 'https://resumexpert-frontend.onrender.com');
-    },
-  })
+  express.static(path.join(__dirname, 'uploads'))
 );
+
+try {
+  await connectDB();
+  app.listen(PORT, () => console.log(`Backend listening on http://localhost:${PORT}`));
+} catch (error) {
+  console.error('❌ Backend startup failed:', error.message);
+  process.exit(1);
+}

@@ -1,12 +1,8 @@
 import mongoose from "mongoose";
 
 export const connectDB = async () => {
-    try {
-        await mongoose.connect('mongodb://127.0.0.1:27017/resume_builder');
-        console.log("✅ DB CONNECTED");
-    } catch (error) {
-        console.log("❌ DB ERROR:", error.message);
-    }
+    await mongoose.connect(process.env.MONGO_DB);
+    console.log("✅ DB CONNECTED");
 };
 
 // STEPS TO GET YOUR MONGODB ATLAS USERNAME & PASSWORD:
